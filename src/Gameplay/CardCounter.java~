@@ -1,0 +1,15 @@
+// Author : Stanley Urbanek
+// Info   : Card Counting trainer, instantiated by GamePlay
+//          Provides post game analysis
+
+public class CardCounter {
+
+    public int finalCount = 0;
+    public int[] runningCount = 0;
+    
+    public String[] dealerHands;
+    public int[] dealerRoundCount;
+
+    public String[] player1Hands;
+    public int[] playerRoundCount;
+}

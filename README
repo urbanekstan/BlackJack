@@ -1,2 +1,4 @@
-BlackJack interactive game
-Includes card counting trainer
+To compile:
+
+javac src/**/*.java -cp build/
+java -cp build/ BlackJackGUI

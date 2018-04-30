@@ -15,6 +15,7 @@ import javax.swing.*;
 
 public interface Phases {
 
+    public void playAllRounds();
     public void playOneRound();
     
     public void dealPhase();

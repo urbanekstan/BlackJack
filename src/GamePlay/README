@@ -1,0 +1,5 @@
+GamePlay is the highest level object, and manipulates all game flow. All display and user input is done within here.
+
+GamePlay instantiates StandardDeck, ActivePlayer, CardCounter, (BlackJackGUI when ready)
+
+class GamePlay extends Phases

@@ -1,0 +1,3 @@
+Players handles all single-round information when a player interacts w table ~ current hand and totals, whether busts or stands, number of aces.
+
+class ActivePlayer implements Player

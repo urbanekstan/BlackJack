@@ -1,0 +1,4 @@
+CardCounter tracks running count and user's count throughout BlackJack game. Logs each round's hands for post-game analysis.
+
+Counter.java ~ interface for CardCounter.java
+CardCounter.java ~ class 

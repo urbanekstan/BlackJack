@@ -28,9 +28,20 @@ public class ActivePlayer implements Player {
 
     public void updateHand(Deck deck) {
 	if (deck.size() == 2) { // Then adding a dealt hand
-	    currentHand = deck.getCards();
+	    currentHand.add(deck.getCards().get(0));
+	    currentHand.add(deck.getCards().get(1));
+
+	    if (deck.getCards().get(0).getRank().text() == "Ace") {
+		numAces = numAces + 1;
+	    }
+	    if (deck.getCards().get(1).getRank().text() == "Ace") {
+		numAces = numAces + 1;
+	    }
 	} else {
 	    currentHand.add(deck.getCards().get(0));
+	    if (deck.getCards().get(0).getRank().text() == "Ace") {
+		numAces = numAces + 1;
+	    }
 	}
     }
 
@@ -42,7 +53,11 @@ public class ActivePlayer implements Player {
 	}
 	return currentHandTotal;
     }
-    
+
+    public int numAces() {
+	return numAces;
+    }
+   
     public List<Card> getHand() {
 	return this.currentHand;
     }

@@ -10,6 +10,7 @@ public interface Player {
     public void clearHand();
     public void updateHand(Deck deck);
     public int calculateHand();
+    public int numAces();
     
     public List<Card> getHand();
     public String handToString();

@@ -1,8 +1,8 @@
 // Author: Stanley Urbanek
 // Description: GamePlay class controls the gameplay
-//              and directly feeds GUI what to update (frames)
-// Uses:  StandardDeck, Player, CardCounter, CardCounterGUI
-// Feeds: BlackJack GUI
+//              and directly feeds GUI what to update
+// Uses:  StandardDeck, ActivePlayer, CardCounter
+
 
 import java.util.*;
 import java.util.stream.*;
@@ -19,27 +19,50 @@ import javax.swing.*;
 public class GamePlay implements Phases {
     
     private int numRounds;    
-    private int currentRound = 1;
+    private int currentRound = 0;
     
     private StandardDeck myDeck;
     private Map<Integer, Deck> tableCards;
     
-    private Dealer dealer  = new Dealer();
+    private ActivePlayer dealer  = new ActivePlayer();
     private ActivePlayer player1 = new ActivePlayer();
     //private Map<Integer, ActivePlayer> players; // For multiple players
+
+    private CardCounter cardCounter;
+    private static Scanner reader; //= new Scanner(System.in);
 
     public GamePlay(int numRounds) {
 	
 	this.numRounds = numRounds;
 	myDeck = new StandardDeck();
 	myDeck.shuffle();
+	cardCounter = new CardCounter(numRounds);
+	reader = new Scanner(System.in);
     }
 
+    public void playAllRounds() {
+
+        while (currentRound < numRounds) {
+	    playOneRound();
+	}
+
+    }
+    
     public void playOneRound() {
-	dealPhase();
-        playerHitPhase();
-	dealerHitPhase();
-	determineWinner();
+	
+	System.out.println("\n ---- ROUND " + (int)(currentRound+1) + " ---- ");
+	
+	dealPhase();      // Clear all hands, deal 2 cards
+        playerHitPhase(); // Enter Hit/Bust-Stand interaction, need user input
+	dealerHitPhase(); // Enter Hit/Bust-Stand interaction, automated
+	determineWinner();// Determines winner of round
+	
+	cardCounter.logInfo(dealer, player1, currentRound); 
+	System.out.println("What is the running count? : ");
+	int cnt = reader.nextInt();
+	cardCounter.updateUserCount(cnt, currentRound);
+
+	currentRound = currentRound + 1;
     }
 
     public void dealPhase() {
@@ -54,11 +77,6 @@ public class GamePlay implements Phases {
 	dealer.updateHand( tableCards.get(2));
 	myDeck.updateDeck( tableCards.get(3));
 	displayDealPhase();
-	/*
-	System.out.println( (tableCards.get(1)).deckToString());
-	System.out.println( (tableCards.get(2)).deckToString());
-	System.out.println( (tableCards.get(3)).size());
-	*/
     }
 
     public void displayDealPhase() {
@@ -69,7 +87,7 @@ public class GamePlay implements Phases {
 
     public void playerHitPhase() {
 	
-	Scanner reader = new Scanner(System.in);  // Reading from System.in
+	  // Reading from System.in
 	System.out.println("Hit (0), Stand (1): ");
 	int n = reader.nextInt(); // Scans the next token of the input as an int.
 	if (n==0) {
@@ -88,21 +106,19 @@ public class GamePlay implements Phases {
 
 	}
 	*/
-	//once finished
-	reader.close();
+
     }
 
     public void dealerHitPhase() {
         displayHitPhase("Dealer reveals");
 	// First check for 21
 	System.out.println("dealer has total: "+dealer.calculateHand());
-	if (dealer.calculateHand() == 21) {
+	if ( (dealer.calculateHand() == 11) && (dealer.numAces() == 1) ) {
 	    dealer.chooseStand();
 	    displayHitPhase("Dealer has 21!");
 	}
 	
 	while (!dealer.doesStand()) {
-	    System.out.println("!doesStand() dealer : " + dealer.calculateHand());
 	    // Otherwise, as long as dealer chooses not to stand (17 or under)
 	    if (dealer.calculateHand() <= 17) {
 		// Then hit
@@ -110,7 +126,6 @@ public class GamePlay implements Phases {
 		dealer.updateHand(tableCards.get(1));
 		myDeck.updateDeck(tableCards.get(2));
 		displayHitPhase("Dealer hits");
-		System.out.println(dealer.handToString());
 		// Did dealer bust?
 		if (dealer.calculateHand() > 21) {
 		    displayHitPhase("Dealer busts");
@@ -138,6 +153,7 @@ public class GamePlay implements Phases {
     }
 
     public void determineWinner() {
+	displayWinner("Final Hands ~ \n  Player 1 " + player1.handToString() + " \n  Dealer " + dealer.handToString());
 	if (player1.doesBust()) {
 	    displayWinner("Player 1 loses by bust");
 	}
@@ -158,13 +174,15 @@ public class GamePlay implements Phases {
     public void displayWinner(String s) {
 	System.out.println(s);
     }
+    
     public static void main(String[] args) {
-	GamePlay game = new GamePlay(2);
-	game.playOneRound();
+	//GamePlay game = new GamePlay(Integer.parseInt(args[0]));
+	GamePlay game = new GamePlay(3);
+	game.playAllRounds();
 
 
 
-
+	//reader.closed();
 	
 	//BlackJackGUI gui = new BlackJackGUI(1000, 700, 5);
 	//gui.picture(0, 0, "map.png");

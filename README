@@ -1,14 +1,33 @@
 BlackJack game w Card Counting Trainer
 By Stanley Urbanek
 
-----Info----
+--------------
+---- Info ----
+--------------
+
 This is a BlackJack game that has a Card Counting Trainer that shows the user how to count cards, while playing a live game of BlackJack.
 
-----To compile----
+NOTE: GUI temporarily down ~ re-developing to fit latest GamePlay.
+
+--------------------
+---- To compile ----
+--------------------
+
 javac src/**/*.java -d build/
 java -cp build/ GamePlay
 
-----Classes----
+--------------------------------
+---- File naming convention ----
+--------------------------------
+
+Single word names (eg Card, Player, Phases.java) are interfaces.
+Double word name (eg PlayingCard, ActivePlayer.java) are classes that implement such interfaces.
+(Mirrored after Oracle's structuring, w Card/PlayingCard and Deck/StandardDeck)
+
+-----------------
+---- Classes ----
+-----------------
+
 src/CardCounter:
 CardCounter.java   Counter.java
 
@@ -24,23 +43,27 @@ ActivePlayer.java  Player.java
 [GUI/:                              ]
 [BlackJackGUI.java  CardPanel.java  ]
 
-----Design----
-~ GamePlay is highest level object
-~ GamePlay handles game flow, interactions between player(s)/dealer and deck
-~ GamePlay instantiates
+------------------
+---- Design ------
+------------------
+
+~ GamePlay is highest level object - handles game flow, interactions between player(s)/dealer and deck
+
+~ GamePlay instantiates:
+
  - StandardDeck obj : represents the Deck
  - ActivePlayer obj : represents player's hands, counts
  - Dealer obj       : represents dealer's hand (extends Player)
  - CardCounter obj  : tracks running count
- - BlackJackGUI obj : displays game play
- - CardPanel obj    : displays cards
-~ Dealer extends ActivePlayer obj, which implements Player, 
+[- BlackJackGUI obj : displays game play ]
+[- CardPanel obj    : displays cards     ]
+
+~ ActivePlayer class implements Player interface
+
 ~ StandardDeck is borrowed from Oracle's Java examples
  - StandardDeck class implements Deck interface 
  - PlayingCard  class implements Card interface
 
-----Note----
-All files w Single word name (eg Card, Player, Phases.java) are interfaces
-All files w Double word name (eg PlayingCard, ActivePlayer.java) are classes that implement such interfaces
-(This structure was mirrored after Oracle's, w Card/PlayingCard and Deck/StandardDeck)
+~ CardCounter class implements Counter interface
+
 

@@ -1,4 +1,7 @@
 DeckOfCards contains Deck and Card objects. The dealing interface resides within StandardDeck.
 
+These are Oracle's own classes
+Copyright (c) 2013, Oracle
+
 class StandardDeck implements Deck
 class PlayingCard implements Card

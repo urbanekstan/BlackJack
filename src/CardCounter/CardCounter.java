@@ -26,8 +26,6 @@ public class CardCounter implements Counter {
 	
 	playerHistory.put(currentRound, player1.getHand());
 	dealerHistory.put(currentRound, dealer.getHand());
-	System.out.println("log info " + player1.getHand());
-	System.out.println("         " + dealer.getHand());
 	for (int i=0; i<player1.getHand().size();i++) {
 	    int cardValue = player1.getHand().get(i).getRank().value();
 	    incrementCount(cardValue);
@@ -37,7 +35,6 @@ public class CardCounter implements Counter {
 	    incrementCount(cardValue);
 	}
 	runningCounts[currentRound] = totalRunningCount;
-	System.out.println("RC IS " + totalRunningCount);
     }
 
     public void incrementCount(int cardValue) {
@@ -57,6 +54,14 @@ public class CardCounter implements Counter {
     public void updateUserCount(int userCount, int currentRound) {
 	this.userCounts[currentRound] = userCount;
     }
+
+    public Map<Integer, List<Card>> getPlayerHistory() {
+	return playerHistory;
+    }
+
+    public Map<Integer, List<Card>> getDealerHistory() {
+	return dealerHistory;
+    }    
     
     public int getRunningCount() {
 	return totalRunningCount;

@@ -9,16 +9,19 @@ javac src/**/*.java -d build/
 java -cp build/ GamePlay
 
 ----Classes----
+src/CardCounter:
+CardCounter.java   Counter.java
+
 src/DeckOfCards:
 Card.java  Deck.java  PlayingCard.java  StandardDeck.java
 
 src/GamePlay:
-CardCounter.java  GamePlay.java
+GamePlay.java   Phases.java
 
 src/Players:
-ActivePlayer.java  Dealer.java  Player.java
+ActivePlayer.java  Player.java
 
-[src/GUI:                           ]
+[GUI/:                              ]
 [BlackJackGUI.java  CardPanel.java  ]
 
 ----Design----
@@ -36,4 +39,8 @@ ActivePlayer.java  Dealer.java  Player.java
  - StandardDeck class implements Deck interface 
  - PlayingCard  class implements Card interface
 
+----Note----
+All files w Single word name (eg Card, Player, Phases.java) are interfaces
+All files w Double word name (eg PlayingCard, ActivePlayer.java) are classes that implement such interfaces
+(This structure was mirrored after Oracle's, w Card/PlayingCard and Deck/StandardDeck)
 

@@ -2,16 +2,16 @@
 // Info   : Card Counting trainer, instantiated by GamePlay
 //          Provides post game analysis
 
-public class CardCounter {
+public class CardCounter implements Counter {
 
-    public int totalRunningCount;
-    public int[] runningCount;
+    private int totalRunningCount;
+    private int[] runningCount;
     
-    public String[] dealerHands;
-    public int[] dealerRoundCount;
+    private String[] dealerHands;
+    private int[] dealerRoundCount;
 
-    public String[] player1Hands;
-    public int[] playerRoundCount;
+    private String[] player1Hands;
+    private int[] playerRoundCount;
 
     public CardCounter(int numRounds) {
 	this.totalRunningCount = 0;

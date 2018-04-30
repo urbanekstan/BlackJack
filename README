@@ -17,13 +17,16 @@ src/GUI:
 BlackJackGUI.java  CardPanel.java
 
 ----Design----
-~ BlackJackGUI is highest level object 
-~ BlackJackGUI instantiates
- - GamePlay obj     : controls Game flow 
- - Player obj       : represents each player, hand, game interactions 
- - StandardDeck obj : represents the Deck 
- - CardCounter obj  : tracks running count 
- - CardPanel obj    : displays cards 
+~ GamePlay is highest level object
+~ GamePlay handles game flow, interactions between player(s)/dealer and deck
+~ GamePlay instantiates
+ - StandardDeck obj : represents the Deck
+ - ActivePlayer obj : represents player's hands, counts
+ - Dealer obj       : represents dealer's hand (extends Player)
+ - CardCounter obj  : tracks running count
+ 
+ - CardPanel obj    : displays cards
+~ Dealer extends ActivePlayer obj, which implements Player, 
 ~ StandardDeck is borrowed from Oracle's Java examples
  - StandardDeck class implements Deck interface 
  - PlayingCard  class implements Card interface

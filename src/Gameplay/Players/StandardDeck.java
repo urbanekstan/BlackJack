@@ -133,8 +133,15 @@ public class StandardDeck implements Deck {
         return this.entireDeck
             .stream()
             .map(Card::toString)
-            .collect(Collectors.joining("\n"));
+            .collect(Collectors.joining(", "));
     }
+
+
+    // Added by Stan
+    public void updateDeck(Deck deck) {
+	this.entireDeck = deck.getCards();
+    }
+    
 
 }
 

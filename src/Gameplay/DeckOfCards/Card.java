@@ -1,7 +1,6 @@
-// Source: https://docs.oracle.com/javase/tutorial/java/IandI/examples/defaultmethods/Deck.java
+// Source: https://docs.oracle.com/javase/tutorial/java/IandI/examples/defaultmethods/Card.java
 // Edited: Stanley Urbanek
-// Info  : Deck interface for deck of cards
-
+// Info  : Card interface for individual cards
 
 /*
  * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
@@ -32,28 +31,51 @@
  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */ 
+ */
 
-// package blackJack;
 
-import java.util.*;
-import java.util.stream.*;
-import java.lang.*;
- 
-public interface Deck {
+public interface Card extends Comparable<Card> {
     
-    List<Card> getCards();
-    Deck deckFactory();
-    int size();
-    void addCard(Card card);
-    void addCards(List<Card> cards);
-    void addDeck(Deck deck);
-    void shuffle();
-    void sort();
-    void sort(Comparator<Card> c);
-    String deckToString();
-
-    Map<Integer, Deck> deal(int players, int numberOfCards)
-        throws IllegalArgumentException;
-
+    public enum Suit { 
+        DIAMONDS (1, "Diamonds"),
+	HEARTS   (2, "Hearts"  ),
+	SPADES   (3, "Spades"  ),
+        CLUBS    (4, "Clubs"   ); 
+        
+        private final int value;
+        private final String text;
+        Suit(int value, String text) {
+            this.value = value;
+            this.text = text;
+        }
+        public int value() {return value;}
+        public String text() {return text;}
+    }
+    
+    public enum Rank { 
+        DEUCE  (2 , "Two"  ),
+        THREE  (3 , "Three"), 
+        FOUR   (4 , "Four" ), 
+        FIVE   (5 , "Five" ), 
+        SIX    (6 , "Six"  ), 
+        SEVEN  (7 , "Seven"),
+        EIGHT  (8 , "Eight"), 
+        NINE   (9 , "Nine" ), 
+        TEN    (10, "Ten"  ), 
+        JACK   (10, "Jack" ),
+        QUEEN  (10, "Queen"), 
+        KING   (10, "King" ),
+        ACE    (1,  "Ace"  );
+        private final int value;
+        private final String text;
+        Rank(int value, String text) {
+            this.value = value;
+            this.text = text;
+        }
+        public int value() {return value;}
+        public String text() {return text;}
+    }
+    
+    public Card.Suit getSuit();
+    public Card.Rank getRank();
 }

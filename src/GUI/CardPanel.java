@@ -8,8 +8,8 @@ import java.awt.Font;
 class CardPanel extends javax.swing.JPanel
 {
 
-    String[] dealer = {"","","","","",""};
-    String[] player = {"","","","","",""};
+    String[] dealer = {"  ","  ","  ","  ","  ","  "};
+    String[] player = {"  ","  ","  ","  ","  ",""};
     String[] deck={
 	"DA","D2","D3","D4","D5","D6","D7","D8","D9","DT","DJ","DQ","DK",  // diamond
 	"HA","H2","H3","H4","H5","H6","H7","H8","H9","HT","HJ","HQ","HK", // heart
@@ -27,38 +27,34 @@ class CardPanel extends javax.swing.JPanel
 	this.cardImage=createAllImage();
     }
 
+    // If doing more than 1 dealer and 1 player, adjust setPreferredSize 
     public static CardPanel getInstance() {
 	CardPanel panel=new CardPanel();
 	panel.setBackground(new java.awt.Color(255,255,128));
-	panel.setPreferredSize(new java.awt.Dimension(800,400));
+	panel.setPreferredSize(new java.awt.Dimension(500,200));
 	return panel;
     }
-    
+
+    // If doing more than 1 dealer and 1 player, need to fix this
     public BufferedImage[] createAllImage() {
 	BufferedImage[] imageArray = new BufferedImage[12];
-	imageArray[0]=createLabelImage(1);
+	imageArray[0]=createLabelImage("Player 1");
+	imageArray[6]=createLabelImage("Dealer");
+	
 	for (int i=1;i<6;i++) {
-	    imageArray[i]=createImage(dealer[i]);
-	}
-	imageArray[1]=createLabelImage(1);
-	for (int i=1;i<6;i++) {
-	    imageArray[i+6]=createImage(player[i]);
-	}
-	/*
-	for (int i=0;i<52;i++) {
 	    imageArray[i]=createImage(deck[i]);
+	    imageArray[i+6]=createImage(dealer[i]);
 	}
-	*/
+	
 	return imageArray;
     }
 
-    public BufferedImage createLabelImage(int i) {
+    public BufferedImage createLabelImage(String whichPlayer) {
 
 	// create a card image.
 	int cardWidth=60, cardHeight=80;
 	BufferedImage image=new BufferedImage(cardWidth, cardHeight, BufferedImage.TYPE_INT_ARGB);
 
-	  
 	// get a graphics object of the image for drawing.
 	java.awt.Graphics2D gr = (java.awt.Graphics2D) image.getGraphics();
  
@@ -74,7 +70,7 @@ class CardPanel extends javax.swing.JPanel
 	int x=5;
 	gr.setColor(java.awt.Color.BLACK);
 	/////////////
-	gr.drawString("Dealer",x,45);
+	gr.drawString(whichPlayer,x,45);
  
 	return image;  
     }

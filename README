@@ -13,6 +13,8 @@ NOTE: GUI temporarily down ~ re-developing to fit latest GamePlay.
 ---- To compile ----
 --------------------
 
+cd ~/repositories/BlackJack/
+
 javac src/**/*.java -d build/
 java -cp build/ GamePlay
 

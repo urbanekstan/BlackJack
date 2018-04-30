@@ -5,16 +5,21 @@ By Stanley Urbanek
 This is a BlackJack game that has a Card Counting Trainer that shows the user how to count cards, while playing a live game of BlackJack.
 
 ----To compile----
-javac src/**/*.java -cp build/
-java -cp build/ BlackJackGUI
+javac src/**/*.java -d build/
+java -cp build/ GamePlay
 
 ----Classes----
-src/Gameplay:
-CardCounter.java  Deck.java      Player.java       StandardDeck.java
-Card.java         GamePlay.java  PlayingCard.java
+src/DeckOfCards:
+Card.java  Deck.java  PlayingCard.java  StandardDeck.java
 
-src/GUI:
-BlackJackGUI.java  CardPanel.java
+src/GamePlay:
+CardCounter.java  GamePlay.java
+
+src/Players:
+ActivePlayer.java  Dealer.java  Player.java
+
+[src/GUI:                           ]
+[BlackJackGUI.java  CardPanel.java  ]
 
 ----Design----
 ~ GamePlay is highest level object
@@ -24,7 +29,7 @@ BlackJackGUI.java  CardPanel.java
  - ActivePlayer obj : represents player's hands, counts
  - Dealer obj       : represents dealer's hand (extends Player)
  - CardCounter obj  : tracks running count
- 
+ - BlackJackGUI obj : displays game play
  - CardPanel obj    : displays cards
 ~ Dealer extends ActivePlayer obj, which implements Player, 
 ~ StandardDeck is borrowed from Oracle's Java examples

@@ -7,14 +7,16 @@ import java.lang.*;
 
 public interface Player {
 
+    public void clearHand();
+    public void updateHand(Deck deck);
+    public int calculateHand();
     
     public List<Card> getHand();
-    public int calculateHandTotal();
-    public void updateHand(Deck deck);
-    public void clearHand();
     public String handToString();
 
     public boolean doesStand();
     public boolean doesBust();
+    public void chooseStand();
+    public void chooseBust();
     
 }

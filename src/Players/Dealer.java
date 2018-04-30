@@ -9,6 +9,7 @@ import java.lang.*;
 public class Dealer extends ActivePlayer {
 
     public Dealer() {
-
+	clearHand();
     }
+
 }

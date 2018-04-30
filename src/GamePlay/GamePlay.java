@@ -16,38 +16,37 @@ import java.awt.event.*;
 import java.awt.image.*;
 import javax.swing.*;
 
-public class GamePlay {
+public class GamePlay implements Phases {
     
     private int numRounds;    
     private int currentRound = 1;
     
-    private StandardDeck myDeck; // = new StandardDeck();
+    private StandardDeck myDeck;
+    private Map<Integer, Deck> tableCards;
+    
     private Dealer dealer  = new Dealer();
     private ActivePlayer player1 = new ActivePlayer();
-    //private Map<Integer, ActivePlayer> players;
-    private Map<Integer, Deck> tableCards;
-
-
+    //private Map<Integer, ActivePlayer> players; // For multiple players
 
     public GamePlay(int numRounds) {
 	
-	// Start new GamePlay by instantiation of objects involved
 	this.numRounds = numRounds;
 	myDeck = new StandardDeck();
 	myDeck.shuffle();
-	
     }
 
     public void playOneRound() {
 	dealPhase();
-	hitOrStandPhase();
+        playerHitPhase();
+	dealerHitPhase();
+	determineWinner();
     }
 
-    
     public void dealPhase() {
 
 	// Clear hand and deal new
-	// CLELLER
+	dealer.clearHand();
+	player1.clearHand();
 	tableCards = myDeck.deal(2,2);
 
 	// Update where cards are
@@ -63,21 +62,23 @@ public class GamePlay {
     }
 
     public void displayDealPhase() {
-	// Displays deal phase by
-	//System.out.println( (tableCards.get(1).getCards())[0]);
+	// Displays deal phase, replace by GUI
 	System.out.println("Player 1 : " + player1.handToString());
 	System.out.println("Dealer   : " + dealer.handToString());
     }
 
-    public void hitOrStandPhase() {
+    public void playerHitPhase() {
 	
 	Scanner reader = new Scanner(System.in);  // Reading from System.in
 	System.out.println("Hit (0), Stand (1): ");
 	int n = reader.nextInt(); // Scans the next token of the input as an int.
 	if (n==0) {
-	    System.out.println("HIT ");
+	    System.out.println("Player 1 Hits");
+	    tableCards = myDeck.deal(1,1);
+	    player1.updateHand( tableCards.get(1));
+	    myDeck.updateDeck( tableCards.get(2));
 	} else {
-	    System.out.println("STAND");
+	    System.out.println("Player 1 Stands");
 	}
 
 	
@@ -91,9 +92,71 @@ public class GamePlay {
 	reader.close();
     }
 
-    public void displayHitStandPhase() {
-	System.out.println(" ");
+    public void dealerHitPhase() {
+        displayHitPhase("Dealer reveals");
+	// First check for 21
+	System.out.println("dealer has total: "+dealer.calculateHand());
+	if (dealer.calculateHand() == 21) {
+	    dealer.chooseStand();
+	    displayHitPhase("Dealer has 21!");
+	}
+	
+	while (!dealer.doesStand()) {
+	    System.out.println("!doesStand() dealer : " + dealer.calculateHand());
+	    // Otherwise, as long as dealer chooses not to stand (17 or under)
+	    if (dealer.calculateHand() <= 17) {
+		// Then hit
+		tableCards = myDeck.deal(1,1);
+		dealer.updateHand(tableCards.get(1));
+		myDeck.updateDeck(tableCards.get(2));
+		displayHitPhase("Dealer hits");
+		System.out.println(dealer.handToString());
+		// Did dealer bust?
+		if (dealer.calculateHand() > 21) {
+		    displayHitPhase("Dealer busts");
+		    dealer.chooseStand();
+		    dealer.chooseBust();
+		}
+		// Did dealer get 21?
+		else if (dealer.calculateHand() == 21) {
+		    displayHitPhase("Dealer has 21!");
+		    dealer.chooseStand();
+		}
+		// Otherwise, dealer will loop again
+		else { }
+	    } else { // Else, dealer is between 17 and 21
+		displayHitPhase("Dealer stands");
+		dealer.chooseStand();
+	    }
+	}
 
+	displayHitPhase("End hit-stand phase");
+    }
+
+    public void displayHitPhase(String s) {
+	System.out.println(s);
+    }
+
+    public void determineWinner() {
+	if (player1.doesBust()) {
+	    displayWinner("Player 1 loses by bust");
+	}
+	else if (dealer.doesBust()) {
+	    displayWinner("Player 1 wins bc dealer bust");
+	}
+	else if (dealer.calculateHand() < player1.calculateHand()) {
+	    displayWinner("Player 1 wins!");
+	}
+	else if (dealer.calculateHand() == player1.calculateHand()) {
+	    displayWinner("Player 1 ties w Dealer");
+	}
+	else {
+	    displayWinner("Dealer wins");
+	}
+    }
+
+    public void displayWinner(String s) {
+	System.out.println(s);
     }
     public static void main(String[] args) {
 	GamePlay game = new GamePlay(2);

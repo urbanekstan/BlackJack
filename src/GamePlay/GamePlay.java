@@ -1,8 +1,7 @@
 // Author: Stanley Urbanek
 // Description: GamePlay class controls the gameplay
-//              and directly feeds GUI what to update
+//              DisplayXX() methods will be replaced by GUI
 // Uses:  StandardDeck, ActivePlayer, CardCounter
-
 
 
 import java.util.*;
@@ -16,6 +15,7 @@ import java.awt.geom.*;
 import java.awt.event.*;
 import java.awt.image.*;
 import javax.swing.*;
+
 
 public class GamePlay implements Phases {
     
@@ -53,14 +53,14 @@ public class GamePlay implements Phases {
 	}
         
 	displayAnalysis();
-	System.out.println(Dialogue.ANALYSIS.text());
+	//System.out.println(Dialogue.ANALYSIS.text());
     }
     
     public void playOneRound() {
 	
-	System.out.println(" ---- ROUND " + (int)(currentRound+1) + " ---- \n [Press ENTER to DEAL]");
-	int p = reader.nextInt();
-
+	System.out.println(" ---- ROUND " + (int)(currentRound+1) + " ---- \n");
+	//int p = reader.nextInt();
+	//TimeUnit.SECONDS.sleep(1);
    
 	dealPhase();      // Clear all hands, deal 2 cards
         playerHitPhase(); // Enter Hit/Bust-Stand interaction, need user input
@@ -68,7 +68,7 @@ public class GamePlay implements Phases {
 	determineWinner();// Determines winner of round
 	
 	cardCounter.logInfo(dealer, player1, currentRound); 
-	System.out.println("What is the running count? : ");
+	System.out.println("What is the running count? :                        ***");
 	int cnt = reader.nextInt();
 	cardCounter.updateUserCount(cnt, currentRound);
 	if (cnt != cardCounter.getRunningCount()) {
@@ -107,7 +107,7 @@ public class GamePlay implements Phases {
 	}
 	// As long as we choose to hit
 	while (!player1.doesStand()) {
-	    System.out.println("Hit (0), Stand (1): ");
+	    System.out.println("Hit (0), Stand (1):                       ***");
 	    int n = reader.nextInt(); // Scans the next token of the input as an int.
 	    
 	    if (n==0) {
@@ -200,10 +200,13 @@ public class GamePlay implements Phases {
     public void displayAnalysis( ) {
 
 	System.out.println(" ----- GAME OVER ------ \nNow for your post game analysis: \n");
-        System.out.println(" Rounds: " + numRounds);
+        System.out.println(" > Rounds: " + numRounds);
 
-	System.out.println("\n Player 1 Cardlog" + cardCounter.getPlayerHistory());
-        System.out.println("\n Dealer Cardlog " + cardCounter.getDealerHistory());
+	System.out.println("\n Cardlog: \n > Player 1 :" + cardCounter.getPlayerHistory());
+        System.out.println("\n  > Dealer :  " + cardCounter.getDealerHistory());
+
+	System.out.println("\n RunningCount :\n > True :  " + cardCounter.getRunningCount());// + "\n > Yours : ");// + cardCounter.getRunningCounts());
+	//System.out.println(cardCounter.getRunningCounts());
 	/*
         print(' Player Cardlog ' + str(self.playerFaces))
         print('\n Dealer counts    ' + str(self.dealerCounts))

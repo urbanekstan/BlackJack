@@ -16,4 +16,5 @@ public interface Counter {
     
     public int getRunningCount();
     public int[] getRunningCounts();
+    public int[] getUserCounts();
 }
